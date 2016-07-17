@@ -64,8 +64,9 @@ exports.pullRecentData = function(req, res) {
 			results.push(d)
 		});
 		data.on('end', function() {
-			results = JSON.parse(results);
+			var joined = results.join("")
 
+			results = JSON.parse(joined);
 			processRecentData(results)
 
 			return res.json("[probablyWorked]")
