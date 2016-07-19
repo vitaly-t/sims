@@ -279,9 +279,11 @@ var security = {
         return workflow.emit('response');
       }
 
-      workflow.emit('duplicateUsernameCheck');
+      //workflow.emit('duplicateUsernameCheck');
+      console.log('something');
+      workflow.emit('response');
     });
-
+/*
     workflow.on('duplicateUsernameCheck', function() {
       req.app.db.users.findOne({ username: req.body.username }, function(err, user) {
         if (err) {
@@ -383,7 +385,7 @@ var security = {
       });
     });
     */
-    workflow.on('logUserIn', function() {
+    /*workflow.on('logUserIn', function() {
       req._passport.instance.authenticate('local', function(err, user, info) {
         if (err) {
           return workflow.emit('exception', err);
@@ -404,7 +406,7 @@ var security = {
           });
         }
       })(req, res);
-    });
+    });*/
     
     workflow.emit('validate');
   },
