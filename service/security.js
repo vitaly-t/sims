@@ -432,10 +432,9 @@ var security = {
         return workflow.emit('response');
       }
 
-      //workflow.emit('abuseFilter');
-      workflow.emit('response');
+      workflow.emit('abuseFilter');
     });
-    /*
+
     workflow.on('abuseFilter', function() {
       var getIpCount = function(done) {
         var conditions = { ip: req.ip };
@@ -504,7 +503,7 @@ var security = {
           });
         }
       })(req, res);
-    });*/
+    });
     
     workflow.emit('validate');
   },
