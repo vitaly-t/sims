@@ -1,0 +1,77 @@
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Units Status</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-3 col-md-6" ng-repeat="unit in unitData">
+                    <div class="panel {{ unit.statusPanel }}">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-1">
+                                    <i class="fa {{ unit.statusSymbol }} fa"></i>
+                                </div>
+                                <div class="col-xs-10 text-left">
+                                    <div ng-bind="unit.name"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <span class="pull-left"><span ng-bind="unit.indicatorsMet"></span> of <span ng-bind="unit.indicatorsNumber"></span> indicators met</span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+            <div ng-repeat="unit in unitData">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2 ng-bind="unit.name"></h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-9 col-md-9">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Indicators Status
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Indicator</th>
+                                                <th>Status</th>
+                                                <th>Status as of</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="indicator in unit.indicators">
+                                                <td ng-bind="indicator.id"></td>
+                                                <td ng-bind="indicator.name"></td>
+                                                <td ng-bind-html="indicator.value"></td>
+                                                <td ng-bind="indicator.date"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+            
+
+        <!-- Custom Theme JavaScript -->
+    <!-- Morris Charts JavaScript -->
+    <script src="vendor/raphael.min.js"></script>
+    <script src="vendor/morris.min.js"></script>
+    <script src="vendor/sb-admin-2.js"></script>

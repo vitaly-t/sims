@@ -3,46 +3,154 @@ var path = require('path');
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    distdir: 'client/dist',
+    src: {
+      angularJS: [
+        'client/src/common/**/*.js',
+        'client/src/app/**/*.js'
+      ],
+      angularTpl: ['<%= distdir%>/templates/**/*.js'],
+      angularHtml: {
+        app: ['client/src/app/**/*.tpl.html'],
+        common: ['client/src/common/**/*.tpl.html']
+      }
+    },
     copy: {
       vendor: {
         files: [
           {
-            expand: true, cwd: 'node_modules/bootstrap/',
-            src: ['js/**', 'less/**'], dest: 'public/vendor/bootstrap/'
+            expand: true, cwd: 'client/bower_components/jquery/dist',
+            src: ['jquery.js'], dest: '<%= distdir %>/vendor/'
           },
           {
-            expand: true, cwd: 'node_modules/backbone/',
-            src: ['backbone.js'], dest: 'public/vendor/backbone/'
+            expand: true, cwd: 'client/bower_components/angular/',
+            src: ['angular.js'], dest: '<%= distdir %>/vendor/'
           },
           {
-            expand: true, cwd: 'node_modules/font-awesome/',
-            src: ['fonts/**', 'less/**'], dest: 'public/vendor/font-awesome/'
+            expand: true, cwd: 'client/bower_components/angular-animate/',
+            src: ['angular-animate.js'], dest: '<%= distdir %>/vendor/'
           },
           {
-            expand: true, cwd: 'node_modules/html5shiv/dist/',
-            src: ['html5shiv.js'], dest: 'public/vendor/html5shiv/'
+            expand: true, cwd: 'client/bower_components/angular-bootstrap/',
+            src: ['ui-bootstrap.js', 'ui-bootstrap-tpls.js'], dest: '<%= distdir %>/vendor/'
           },
           {
-            expand: true, cwd: 'node_modules/jquery/dist/',
-            src: ['jquery.js'], dest: 'public/vendor/jquery/'
+            expand: true, cwd: 'client/bower_components/angular-cookies/',
+            src: ['angular-cookies.js'], dest: '<%= distdir %>/vendor/'
           },
           {
-            expand: true, cwd: 'node_modules/jquery.cookie/',
-            src: ['jquery.cookie.js'], dest: 'public/vendor/jquery.cookie/'
+            expand: true, cwd: 'client/bower_components/angular-resource/',
+            src: ['angular-resource.js'], dest: '<%= distdir %>/vendor/'
           },
           {
-            expand: true, cwd: 'node_modules/moment/',
-            src: ['moment.js'], dest: 'public/vendor/momentjs/'
+            expand: true, cwd: 'client/bower_components/angular-route/',
+            src: ['angular-route.js'], dest: '<%= distdir %>/vendor/'
           },
           {
-            expand: true, cwd: 'node_modules/respond.js/src/',
-            src: ['respond.js'], dest: 'public/vendor/respond/'
+            expand: true, cwd: 'client/bower_components/angular-sanitize/',
+            src: ['angular-sanitize.js'], dest: '<%= distdir %>/vendor/'
           },
           {
-            expand: true, cwd: 'node_modules/underscore/',
-            src: ['underscore.js'], dest: 'public/vendor/underscore/'
+            expand: true, cwd: 'client/bower_components/angular-touch/',
+            src: ['angular-touch.js'], dest: '<%= distdir %>/vendor/'
+          },
+          {
+            expand: true, cwd: 'client/bower_components/moment/',
+            src: ['moment.js'], dest: '<%= distdir %>/vendor/'
+          },
+          {
+            expand: true, cwd: 'client/bower_components/bootstrap/',
+            src: ['js/**', 'less/**'], dest: '<%= distdir %>/vendor/'
+          },
+          {
+            expand: true, cwd: 'client/bower_components/html5shiv/dist/',
+            src: ['html5shiv.js'], dest: '<%= distdir %>/vendor/'
+          },
+          {
+            expand: true, cwd: 'client/bower_components/jquery.cookie/',
+            src: ['jquery.cookie.js'], dest: '<%= distdir %>/vendor/'
+          },
+          {
+            expand: true, cwd: 'client/bower_components/respond.js/src/',
+            src: ['respond.js'], dest: '<%= distdir %>/vendor/'
+          },
+          {
+            expand: true, cwd: 'client/bower_components/underscore/',
+            src: ['underscore.js'], dest: '<%= distdir %>/vendor/'
+          },
+          {
+            expand: true, cwd: 'client/bower_components/metisMenu/dist',
+            src: ['metisMenu.js', 'metisMenu.css'], dest: '<%= distdir %>/vendor/'
+          },
+          {
+            expand: true, cwd: 'client/vendor/morris',
+            src: ['morris.min.js', 'raphael.min.js'], dest: '<%= distdir %>/vendor/'
+          },
+          {
+            expand: true, cwd: 'client/vendor/sb-admin-2',
+            src: ['sb-admin-2.js'], dest: '<%= distdir %>/vendor/'
           }
         ]
+      },
+      assets: {
+        files: [
+          {
+            expand: true, cwd: 'client/src/assets/',
+            src: ['favicon.ico'], dest: '<%= distdir %>/'
+          },
+          {
+            expand: true, cwd: 'client/src/assets/img/',
+            src: ['*.png', '*.gif', '*.jpg'], dest: '<%= distdir %>/img/'
+          },
+          {
+            expand: true, cwd: 'client/bower_components/font-awesome/fonts/',
+            src: ['*'], dest: '<%= distdir %>/fonts/'
+          }
+        ]
+      },
+      index: {
+        files: [
+          {
+            expand: true, cwd: 'client/src/',
+            src: ['index.html'], dest: '<%= distdir %>/'
+          }
+        ]
+      }
+    },
+    concat: {
+      angular: {
+        src: ['<%= src.angularJS %>', '<%= src.angularTpl %>'],
+        dest: '<%= distdir %>/app.js'
+      }
+    },
+    html2js: {
+      app: {
+        options: {
+          base: 'client/src/app'
+        },
+        src: ['<%= src.angularHtml.app %>'],
+        dest: '<%= distdir %>/templates/app.js',
+        module: 'templates.app'
+      },
+      common: {
+        options: {
+          base: 'client/src/common'
+        },
+        src: ['<%= src.angularHtml.common %>'],
+        dest: '<%= distdir %>/templates/common.js',
+        module: 'templates.common'
+      }
+    },
+    sass: {
+      dev: {
+        options: {
+          style: 'expanded',
+          compass: false,
+          loadPath: '.'
+        },
+        files: {
+          '<%= distdir %>/css/style.css': 'client/src/assets/sass/style.scss'
+        }
       }
     },
     concurrent: {
@@ -59,41 +167,35 @@ module.exports = function(grunt) {
         options: {
           ignore: [
             'node_modules/**',
-            'public/**'
+            'client/**'
           ],
           ext: 'js'
         }
       }
     },
     watch: {
-      clientJS: {
-         files: [
-          'public/layouts/**/*.js', '!public/layouts/**/*.min.js',
-          'public/views/**/*.js', '!public/views/**/*.min.js'
-         ],
-         tasks: ['newer:uglify', 'newer:jshint:client']
+      angularIndex: {
+        files: ['client/src/index.html'],
+        tasks: ['copy:index']
+      },
+      angularJS: {
+        files: ['<%= src.angularJS %>'],
+        tasks: ['newer:concat', 'newer:jshint:client']
+      },
+      angularHtmlTpl: {
+        files: ['<%= src.angularHtml.app %>', '<%= src.angularHtml.common %>'],
+        tasks: ['newer:html2js', 'newer:concat']
+      },
+      sass: {
+        files: ['client/src/assets/sass/**/*.scss'],
+        tasks: ['sass:dev']
       },
       serverJS: {
-         files: ['views/**/*.js'],
-         tasks: ['newer:jshint:server']
-      },
-      clientLess: {
-         files: [
-          'public/layouts/**/*.less',
-          'public/views/**/*.less',
-          'public/less/**/*.less'
-         ],
-         tasks: ['newer:less']
-      },
-      layoutLess: {
-        files: [
-          'public/layouts/**/*.less',
-          'public/less/**/*.less'
-        ],
-        tasks: ['less:layouts']
+        files: ['service/**/*.js'],
+        task: ['newer:jshint:server']
       }
     },
-    uglify: {
+    /*uglify: {
       options: {
         sourceMap: true,
         sourceMapName: function(filePath) {
@@ -102,7 +204,7 @@ module.exports = function(grunt) {
       },
       layouts: {
         files: {
-          'public/layouts/core.min.js': [
+          'client/layouts/core.min.js': [
             'public/vendor/jquery/jquery.js',
             'public/vendor/jquery.cookie/jquery.cookie.js',
             'public/vendor/underscore/underscore.js',
@@ -134,24 +236,23 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'public/views/',
-          src: ['**/*.js', '!**/*.min.js'],
+          src: ['**//**.js', '!**//*.min.js'],
           dest: 'public/views/',
           ext: '.min.js'
         }]
       }
-    },
+    },*/
     jshint: {
       client: {
         options: {
           jshintrc: '.jshintrc-client',
           ignores: [
-            'public/layouts/**/*.min.js',
-            'public/views/**/*.min.js'
+           'client/src/common/directives/gravatar.js'
           ]
         },
         src: [
-          'public/layouts/**/*.js',
-          'public/views/**/*.js'
+          'client/src/app/**/*.js',
+          'client/src/common/**/*.js'
         ]
       },
       server: {
@@ -160,7 +261,7 @@ module.exports = function(grunt) {
         },
         src: [
           'schema/**/*.js',
-          'views/**/*.js'
+          'service/**/*.js'
         ]
       }
     },
@@ -170,56 +271,64 @@ module.exports = function(grunt) {
       },
       layouts: {
         files: {
-          'public/layouts/core.min.css': [
-            'public/less/bootstrap-build.less',
-            'public/less/font-awesome-build.less',
-            'public/layouts/core.less'
+          'client/layouts/core.min.css': [
+            'client/less/bootstrap-build.less',
+            'client/less/font-awesome-build.less',
+            'client/layouts/core.less'
           ],
-          'public/layouts/admin.min.css': ['public/layouts/admin.less']
+          'client/layouts/admin.min.css': ['client/layouts/admin.less']
         }
       },
       views: {
         files: [{
           expand: true,
-          cwd: 'public/views/',
-          src: ['**/*.less'],
-          dest: 'public/views/',
+          cwd: 'client/views/',
+          src: ['**//**.less'],
+          dest: 'client/views/',
           ext: '.min.css'
         }]
       }
     },
     clean: {
-      js: {
-        src: [
-          'public/layouts/**/*.min.js',
-          'public/layouts/**/*.min.js.map',
-          'public/views/**/*.min.js',
-          'public/views/**/*.min.js.map'
-        ]
-      },
-      css: {
-        src: [
-          'public/layouts/**/*.min.css',
-          'public/views/**/*.min.css'
-        ]
-      },
-      vendor: {
-        src: ['public/vendor/**']
+      src: [
+        'client/dist/**'
+      ]
+    },
+    useminPrepare: {
+      html: '<%= distdir %>/index.html',
+      options: {
+        dest: '<%= distdir %>/'
       }
+    },
+    usemin: {
+      html: ['<%= distdir %>/index.html']
     }
   });
 
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-newer');
+  grunt.loadNpmTasks('grunt-usemin');
+  grunt.loadNpmTasks('grunt-html2js');
+  grunt.loadNpmTasks('grunt-karma');
 
-  grunt.registerTask('default', ['copy:vendor', 'newer:uglify', 'newer:less', 'concurrent']);
-  grunt.registerTask('build', ['copy:vendor', 'uglify', 'less']);
+  grunt.registerTask('angular', ['copy', 'html2js', 'concat:angular', 'sass:dev']);
+
   grunt.registerTask('lint', ['jshint']);
+  /* grunt.registerTask('unitTest', ['clean', 'angular', 'karma:unit']); */
+  grunt.registerTask('test', ['clean', 'lint']);
+
+  grunt.registerTask('dev', ['clean', 'angular', 'concurrent']);
+  grunt.registerTask('production', ['clean', 'angular', 'useminPrepare', 'concat:generated', 'uglify:generated', 'cssmin:generated', 'usemin']);
+
+  grunt.registerTask('default', ['dev']);
 };
