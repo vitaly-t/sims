@@ -6,7 +6,8 @@
   "main": "app.js",
   "author": "Elijah Goldberg, Walimu (elijah@walimu.org)",
   "scripts": {
-    "start": "grunt"
+    "postinstall": "grunt",
+    "start": "node app.js"
   },
   "engines": {
     "node": ">=4.0.0"

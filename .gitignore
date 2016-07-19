@@ -3,3 +3,5 @@ Gruntfile.js
 .nodemonignore
 .sass-cache
 .tmp
+client/dist/*
+client/bower_compnents/*
