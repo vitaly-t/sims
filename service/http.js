@@ -9,7 +9,9 @@ var http = {
       data.err = err;
       console.log(err.stack);
     }
-    res.send({ error: 'Something went wrongasdf.', details: data });
+    data.err = err;
+    console.log(err.stack);
+    res.send({ error: 'Something went wrong.', details: data });
   }
 };
 module.exports = http;
