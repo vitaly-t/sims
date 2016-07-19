@@ -58,7 +58,7 @@ helmet(app);
 
 //response locals
 app.use(function(req, res, next) {
-  /*res.cookie('_csrfToken', req.csrfToken());*/
+  res.cookie('_csrfToken', req.csrfToken());
   res.locals.user = {};
   res.locals.user.defaultReturnUrl = req.user && app.models.User.defaultReturnUrl();
   res.locals.user.username = req.user && req.user.username;
