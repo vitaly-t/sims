@@ -20,11 +20,9 @@ var updateOrInsert = function(ind, date, val) {
 	            } else {
 	            	return
 	            }
-				console.log('something4');
 	        });
 	})
     .then(events=> {
-        console.log("this needs to be refactored.");
     })
     .catch(error=> {
         // error
@@ -41,11 +39,9 @@ var processRecentData = function(res) {
 	for(var i = 0; i < formsN; i++) {
 		var period = res.objects[i].form.date_reviewed
 		if(res.objects[i].form.reception.reception_staff_present == "present") {
-			console.log(period)
 			updateOrInsert(1, period, 1)
 		}
 		if(res.objects[i].form.reception.reception_staff_present == "not_present") {
-			console.log(period)
 			updateOrInsert(1, period, 0)
 		}
 	}
