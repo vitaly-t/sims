@@ -1,7 +1,7 @@
 {
   "name": "SIMS",
   "version": "0.0.1",
-  "description": "A quality improvement for resource-limited healthcare facilities.",
+  "description": "A quality improvement app for resource-limited healthcare facilities.",
   "license": "MIT",
   "main": "app.js",
   "author": "Elijah Goldberg, Walimu (elijah@walimu.org)",
